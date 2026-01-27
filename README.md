@@ -48,6 +48,10 @@ Have an idea for a new tool? Found a bug?
 
 [Open an issue](https://github.com/khaledalam/WorkTools/issues/new/choose)
 
+## Privacy
+
+We don't collect any data. See our [Privacy Policy](PRIVACY_POLICY.md).
+
 ## Author
 
 Made by [Khaled Alam](https://khaledalam.net)
