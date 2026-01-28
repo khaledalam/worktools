@@ -1,6 +1,6 @@
 # WorkTools
 
-Productivity tools for developers who work with JIRA daily.
+Productivity tools for developers who work with JIRA and GitHub daily.
 
 ## Platforms
 
@@ -8,8 +8,34 @@ Productivity tools for developers who work with JIRA daily.
 | -------- | ------ | ------- |
 | Mac App | ✅ Available | `brew install khaledalam/worktools/worktools` |
 | Chrome Extension | ✅ Available | Chrome Web Store |
-| Firefox Extension | 🚧 Coming Soon | - |
+| Firefox Extension | ✅ Available | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/worktools/) |
 | Windows App | 🚧 Coming Soon | - |
+
+---
+
+## Features
+
+### Quick JIRA
+
+Open JIRA tickets instantly without navigating through the browser.
+
+- **Mac:** Menu bar app with keyboard shortcut `Cmd + Shift + J`
+- **Browser:** Type `jira PROJ-123` in address bar (omnibox)
+- Recent tickets history with timestamps
+
+### JIRA RTL Support
+
+Right-to-left text direction for Hebrew/Arabic content in JIRA.
+
+- Automatic RTL for ticket descriptions, comments, and summaries
+- Toggle on/off from extension popup
+
+### GitHub PR Patch Download
+
+Quick access to `.patch` files for pull requests.
+
+- Adds `.patch` button to PR header
+- One-click download of PR changes
 
 ---
 
@@ -25,23 +51,42 @@ brew install khaledalam/worktools/worktools
 
 Or download from [Releases](https://github.com/khaledalam/worktools/releases).
 
-**What you get:**
+**Features:**
 
 - Open JIRA tickets instantly from menu bar
-- Recent tickets history
+- Recent tickets history with timestamps
 - Keyboard shortcut: `Cmd + Shift + J`
+- Settings for JIRA base URL configuration
 
 ---
 
 ## Chrome Extension
 
-Browser extension for JIRA and GitHub.
+Browser extension for JIRA and GitHub productivity.
 
-**What you get:**
+**Features:**
 
-- Quick JIRA from address bar (`jira PROJ-123`)
-- RTL support for Hebrew/Arabic in JIRA
-- PR patch download for GitHub
+- **Quick JIRA:** Type `jira PROJ-123` in address bar to open tickets
+- **RTL Support:** Right-to-left text for Hebrew/Arabic in JIRA
+- **PR Patch Download:** `.patch` button on GitHub pull requests
+- Recent tickets history
+- Toggle features on/off from popup
+
+---
+
+## Firefox Extension
+
+Browser extension for JIRA and GitHub productivity.
+
+**Installation:** [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/worktools/)
+
+**Features:**
+
+- **Quick JIRA:** Type `jira PROJ-123` in address bar to open tickets
+- **RTL Support:** Right-to-left text for Hebrew/Arabic in JIRA
+- **PR Patch Download:** `.patch` button on GitHub pull requests
+- Recent tickets history
+- Toggle features on/off from popup
 
 ---
 
