@@ -1,61 +1,70 @@
-# WorkTools - Productivity Extension
+# WorkTools
 
-A lightweight Chrome extension designed for developers and teams who work with JIRA and GitHub daily.
+Productivity tools for developers who work with JIRA daily.
 
-## Features
+## Platforms
 
-### JIRA Tools
+| Platform | Status | Install |
+| -------- | ------ | ------- |
+| Mac App | ✅ Available | `brew install khaledalam/worktools/worktools` |
+| Chrome Extension | ✅ Available | Chrome Web Store |
+| Firefox Extension | 🚧 Coming Soon | - |
+| Windows App | 🚧 Coming Soon | - |
 
-**Quick JIRA Access**
-- Open any JIRA ticket instantly from the popup or address bar
-- Type `jira` in your address bar followed by the ticket ID (e.g., `jira PROJ-123`)
-- Recently accessed tickets are saved for quick re-access
+---
 
-**RTL Support**
-- Automatic right-to-left text direction for Hebrew, Arabic, and other RTL languages
-- Applies to descriptions, comments, and custom fields
+## Mac App
 
-### GitHub Tools
+Menu bar app for quick JIRA access.
 
-**PR Patch Download**
-- Adds a `.patch` button to pull request pages
-- Download patch files directly for use with `git apply`
+**Installation:**
 
-## Installation
+```bash
+brew install khaledalam/worktools/worktools
+```
 
-Install from the [Chrome Web Store](#)
+Or download from [Releases](https://github.com/khaledalam/worktools/releases).
 
-## Settings
+**What you get:**
 
-- **JIRA Base URL**: Configure your JIRA instance (e.g., `https://company.atlassian.net`)
-- **RTL Support**: Toggle on/off
-- **PR Patch Download**: Toggle on/off
+- Open JIRA tickets instantly from menu bar
+- Recent tickets history
+- Keyboard shortcut: `Cmd + Shift + J`
 
-Settings sync across your Chrome devices.
+---
 
-## Permissions
+## Chrome Extension
 
-This extension only requests permissions for the sites it needs:
-- `*.atlassian.net` - For JIRA features
-- `github.com` - For GitHub features
-- `storage` - To save your settings
+Browser extension for JIRA and GitHub.
 
-**No data is collected or sent to external servers.**
+**What you get:**
 
-## Feedback & Suggestions
+- Quick JIRA from address bar (`jira PROJ-123`)
+- RTL support for Hebrew/Arabic in JIRA
+- PR patch download for GitHub
 
-Have an idea for a new tool? Found a bug?
+---
 
-[Open an issue](https://github.com/khaledalam/WorkTools/issues/new/choose)
+## Configuration
+
+Set your JIRA base URL in Settings:
+
+```text
+https://company.atlassian.net
+```
 
 ## Privacy
 
-We don't collect any data. See our [Privacy Policy](PRIVACY_POLICY.md).
+No data collected. All settings stored locally. See [Privacy Policy](PRIVACY_POLICY.md).
+
+## Contributing
+
+Issues and PRs welcome at [GitHub](https://github.com/khaledalam/worktools/issues).
 
 ## Author
 
-Made by [Khaled Alam](https://khaledalam.net)
+[Khaled Alam](https://khaledalam.net)
 
 ## License
 
-MIT License
+MIT
