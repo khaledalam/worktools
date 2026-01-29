@@ -7,7 +7,7 @@ Productivity tools for developers who work with JIRA and GitHub daily.
 | Platform | Status | Install |
 | -------- | ------ | ------- |
 | Mac App | ✅ Available | `brew install khaledalam/worktools/worktools` |
-| Chrome Extension | ✅ Available | Chrome Web Store |
+| Chrome Extension | ✅ Available | [Chrome Web Store](https://chromewebstore.google.com/detail/worktools-productivity-ex/amoikjkckimekcjfkdnkfianhajpdmgc) |
 | Firefox Extension | ✅ Available | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/worktools/) |
 | Windows App | 🚧 Coming Soon | - |
 
