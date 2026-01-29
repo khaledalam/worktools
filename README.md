@@ -1,4 +1,5 @@
 <p align="center">
+  <a href="https://khaledalam.github.io/worktools/"><img src="https://img.shields.io/badge/website-live-brightgreen" alt="Website"></a>
   <img src="https://img.shields.io/badge/platforms-Chrome%20%7C%20Firefox%20%7C%20macOS-blue" alt="Platforms">
   <a href="https://chromewebstore.google.com/detail/worktools/amoikjkckimekcjfkdnkfianhajpdmgc"><img src="https://img.shields.io/chrome-web-store/v/amoikjkckimekcjfkdnkfianhajpdmgc" alt="Chrome Web Store"></a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/worktools/"><img src="https://img.shields.io/amo/v/worktools" alt="Firefox Add-ons"></a>
@@ -7,7 +8,7 @@
 
 # WorkTools
 
-Productivity tools for developers who work with JIRA, GitHub, and Slack daily.
+> **[Visit Website](https://khaledalam.github.io/worktools/)** | Productivity tools for developers who work with JIRA, GitHub, and Slack daily.
 
 <p align="center">
   <img src="assets/screenshots/popup.png" alt="WorkTools Popup" width="400">
