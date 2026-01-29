@@ -1,14 +1,25 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/platforms-Chrome%20%7C%20Firefox%20%7C%20macOS-blue" alt="Platforms">
+  <a href="https://chromewebstore.google.com/detail/worktools/amoikjkckimekcjfkdnkfianhajpdmgc"><img src="https://img.shields.io/chrome-web-store/v/amoikjkckimekcjfkdnkfianhajpdmgc" alt="Chrome Web Store"></a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/worktools/"><img src="https://img.shields.io/amo/v/worktools" alt="Firefox Add-ons"></a>
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
+</p>
+
 # WorkTools
 
 Productivity tools for developers who work with JIRA, GitHub, and Slack daily.
+
+<p align="center">
+  <img src="assets/screenshots/popup.png" alt="WorkTools Popup" width="400">
+</p>
 
 ## Platforms
 
 | Platform | Status | Install |
 | -------- | ------ | ------- |
-| Chrome Extension | ✅ Available | [Chrome Web Store](https://chromewebstore.google.com/detail/worktools-productivity-ex/amoikjkckimekcjfkdnkfianhajpdmgc) |
-| Mac App | ✅ Available | `brew install khaledalam/worktools/worktools` |
+| Chrome Extension | ✅ Available | [Chrome Web Store](https://chromewebstore.google.com/detail/worktools/amoikjkckimekcjfkdnkfianhajpdmgc) |
 | Firefox Extension | ✅ Available | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/worktools/) |
+| Mac App | ✅ Available | `brew install khaledalam/worktools/worktools` |
 | Windows App | 🚧 Coming Soon | - |
 | Linux App | 🚧 Coming Soon | - |
 
@@ -20,6 +31,7 @@ Productivity tools for developers who work with JIRA, GitHub, and Slack daily.
 | ------- | :----: | :-----: | :-: | :-----: | :---: |
 | Quick JIRA | ✅ | ✅ | ✅ | 🚧 | 🚧 |
 | JIRA RTL Support | ✅ | ✅ | ❌ | ❌ | ❌ |
+| JIRA Related PRs | ✅ | ❌ | ❌ | ❌ | ❌ |
 | GitHub PR Patch | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Slack RTL Support | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Recent Tickets | ✅ | ✅ | ✅ | 🚧 | 🚧 |
@@ -45,9 +57,23 @@ Right-to-left text direction for Hebrew/Arabic content in JIRA.
 - Automatic RTL for ticket descriptions, comments, and summaries
 - Toggle on/off from extension popup
 
+### JIRA Related PRs Viewer
+
+View linked GitHub pull requests directly in JIRA ticket view.
+
+- Automatically detects GitHub PR links in tickets
+- Shows PR status (open, merged, closed, draft)
+- Displays additions/deletions count
+- Click to open PR in new tab
+- Toggle on/off from extension popup
+
 ### GitHub PR Patch Download
 
 Quick access to `.patch` files for pull requests.
+
+<p align="center">
+  <img src="assets/screenshots/github-pr-patch.png" alt="GitHub PR Patch Button" width="700">
+</p>
 
 - Adds `.patch` button to PR header
 - One-click download of PR changes
@@ -56,32 +82,43 @@ Quick access to `.patch` files for pull requests.
 
 Right-to-left text direction for Hebrew/Arabic content in Slack.
 
+<p align="center">
+  <img src="assets/screenshots/slack-rtl.png" alt="Slack RTL Support" width="500">
+</p>
+
 - Automatic RTL for messages, threads, and input
 - Preserves LTR for code blocks
 - Toggle on/off from extension popup
 
 ---
 
-## Chrome Extension
+## Installation
 
-Browser extension for JIRA, GitHub, and Slack productivity.
+### Chrome Extension
+
+Install from [Chrome Web Store](https://chromewebstore.google.com/detail/worktools/amoikjkckimekcjfkdnkfianhajpdmgc)
 
 **Features:**
-
-- **Quick JIRA:** Type `jira PROJ-123` in address bar to open tickets
-- **JIRA RTL Support:** Right-to-left text for Hebrew/Arabic in JIRA
-- **GitHub PR Patch:** `.patch` button on GitHub pull requests
-- **Slack RTL Support:** Right-to-left text for messages in Slack
+- Quick JIRA with omnibox support
+- JIRA RTL Support
+- JIRA Related PRs Viewer
+- GitHub PR Patch Download
+- Slack RTL Support
 - Recent tickets history
 - Toggle features on/off from popup
 
----
+### Firefox Extension
 
-## Mac App
+Install from [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/worktools/)
 
-Menu bar app for quick JIRA access.
+**Features:**
+- Quick JIRA with omnibox support
+- JIRA RTL Support
+- GitHub PR Patch Download
+- Recent tickets history
+- Toggle features on/off from popup
 
-**Installation:**
+### Mac App
 
 ```bash
 brew install khaledalam/worktools/worktools
@@ -90,27 +127,10 @@ brew install khaledalam/worktools/worktools
 Or download from [Releases](https://github.com/khaledalam/worktools/releases).
 
 **Features:**
-
-- Open JIRA tickets instantly from menu bar
+- Menu bar app for quick JIRA access
 - Recent tickets history with timestamps
 - Keyboard shortcut: `Cmd + Shift + J`
 - Settings for JIRA base URL configuration
-
----
-
-## Firefox Extension
-
-Browser extension for JIRA and GitHub productivity.
-
-**Installation:** [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/worktools/)
-
-**Features:**
-
-- **Quick JIRA:** Type `jira PROJ-123` in address bar to open tickets
-- **JIRA RTL Support:** Right-to-left text for Hebrew/Arabic in JIRA
-- **GitHub PR Patch:** `.patch` button on GitHub pull requests
-- Recent tickets history
-- Toggle features on/off from popup
 
 ---
 
@@ -118,21 +138,29 @@ Browser extension for JIRA and GitHub productivity.
 
 Set your JIRA base URL in Settings:
 
-```text
+```
 https://company.atlassian.net
 ```
+
+---
 
 ## Privacy
 
 No data collected. All settings stored locally. See [Privacy Policy](PRIVACY_POLICY.md).
 
+---
+
 ## Contributing
 
 Issues and PRs welcome at [GitHub](https://github.com/khaledalam/worktools/issues).
 
+---
+
 ## Author
 
-[Khaled Alam](https://khaledalam.net)
+**Khaled Alam** - [khaledalam.net](https://khaledalam.net)
+
+---
 
 ## License
 
