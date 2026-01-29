@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkTools — Developer Productivity Toolkit</title>
+  <meta name="description" content="Supercharge your workflow with WorkTools. Quick JIRA access, GitHub PR integration, RTL support, and more. Available for Chrome, Firefox, and macOS.">
+  <meta name="keywords" content="JIRA, GitHub, Slack, productivity, developer tools, browser extension, RTL support">
+  <meta name="author" content="Khaled Alam">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="WorkTools — Developer Productivity Toolkit">
+  <meta property="og:description" content="Supercharge your workflow with WorkTools. Quick JIRA access, GitHub PR integration, RTL support, and more.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/khaledalam/worktools/main/assets/screenshots/popup.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0d0d1f 100%);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-alt {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Animated Blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: blob-move 20s ease-in-out infinite;
+    }
+
+    @keyframes blob-move {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(50px, -50px) scale(1.1); }
+      50% { transform: translate(-30px, 30px) scale(0.9); }
+      75% { transform: translate(-50px, -20px) scale(1.05); }
+    }
+
+    /* Grid Pattern */
+    .grid-pattern {
+      background-image:
+        linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    /* Cards */
+    .glass-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+      border-color: rgba(124, 58, 237, 0.5);
+    }
+
+    /* Glow Effects */
+    .glow-box {
+      box-shadow: 0 0 60px rgba(124, 58, 237, 0.3);
+    }
+
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(124, 58, 237, 0.8); }
+    }
+
+    /* Keyboard Styling */
+    .kbd {
+      background: linear-gradient(180deg, #2a2a4a 0%, #1a1a3a 100%);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.5);
+    }
+
+    /* Typing Cursor */
+    .typing-cursor::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Shimmer Effect */
+    .shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shimmer::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Floating Animation */
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Feature Icons */
+    .feature-icon {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+    }
+
+    .feature-icon.jira { background: linear-gradient(135deg, rgba(0, 82, 204, 0.3) 0%, rgba(38, 132, 255, 0.3) 100%); border-color: rgba(0, 82, 204, 0.5); }
+    .feature-icon.github { background: linear-gradient(135deg, rgba(36, 41, 46, 0.5) 0%, rgba(64, 68, 72, 0.5) 100%); border-color: rgba(255, 255, 255, 0.3); }
+    .feature-icon.slack { background: linear-gradient(135deg, rgba(74, 21, 75, 0.5) 0%, rgba(97, 31, 105, 0.5) 100%); border-color: rgba(74, 21, 75, 0.5); }
+
+    /* Scroll Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Screenshot Container */
+    .screenshot-wrapper {
+      position: relative;
+    }
+
+    .screenshot-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+      border-radius: 20px;
+      z-index: -1;
+      opacity: 0.5;
+      filter: blur(20px);
+    }
+
+    /* Platform Badge Colors */
+    .chrome-gradient { background: linear-gradient(135deg, #facc15 0%, #ef4444 50%, #22c55e 100%); }
+    .firefox-gradient { background: linear-gradient(135deg, #f97316 0%, #dc2626 100%); }
+    .mac-gradient { background: linear-gradient(135deg, #6b7280 0%, #374151 100%); }
+  </style>
+</head>
+
+<body class="gradient-bg text-white min-h-screen overflow-x-hidden">
+  <!-- Animated Background -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden">
+    <div class="blob w-96 h-96 bg-purple-600 top-20 -left-48" style="animation-delay: 0s;"></div>
+    <div class="blob w-80 h-80 bg-cyan-600 top-1/2 -right-40" style="animation-delay: -5s;"></div>
+    <div class="blob w-72 h-72 bg-amber-600 bottom-20 left-1/3" style="animation-delay: -10s;"></div>
+  </div>
+
+  <!-- Grid Pattern -->
+  <div class="fixed inset-0 grid-pattern pointer-events-none"></div>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/30 border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center font-bold text-lg shadow-lg">
+          W
+        </div>
+        <span class="text-xl font-bold">WorkTools</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#features" class="text-sm text-gray-300 hover:text-white transition">Features</a>
+        <a href="#how-it-works" class="text-sm text-gray-300 hover:text-white transition">How It Works</a>
+        <a href="#screenshots" class="text-sm text-gray-300 hover:text-white transition">Screenshots</a>
+        <a href="#install" class="text-sm text-gray-300 hover:text-white transition">Install</a>
+        <a href="https://github.com/khaledalam/worktools" target="_blank"
+           class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-sm border border-white/10">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center justify-center pt-20 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 shimmer">
+        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+        <span class="text-sm text-gray-300">Open Source & Privacy-First</span>
+      </div>
+
+      <!-- Main Heading -->
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        Your Workflow,<br>
+        <span class="gradient-text">Supercharged</span>
+      </h1>
+
+      <!-- Subheading -->
+      <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
+        The productivity toolkit for developers who live in JIRA, GitHub, and Slack.
+        Access tickets instantly, see PR status in JIRA, and work seamlessly in RTL languages.
+      </p>
+
+      <!-- Keyboard Shortcut Demo -->
+      <div class="flex items-center justify-center gap-3 mb-10 flex-wrap">
+        <div class="flex items-center gap-1">
+          <span class="kbd px-3 py-2 rounded-lg text-sm font-mono">Cmd</span>
+          <span class="text-gray-500">+</span>
+          <span class="kbd px-3 py-2 rounded-lg text-sm font-mono">Shift</span>
+          <span class="text-gray-500">+</span>
+          <span class="kbd px-3 py-2 rounded-lg text-sm font-mono">J</span>
+        </div>
+        <span class="text-gray-500 mx-2">→</span>
+        <span class="text-gray-300 typing-cursor">Open JIRA ticket instantly</span>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
+        <a href="https://chromewebstore.google.com/detail/worktools/amoikjkckimekcjfkdnkfianhajpdmgc" target="_blank"
+           class="group px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 font-semibold text-lg hover:opacity-90 transition flex items-center gap-2 pulse-glow">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-3.952 6.848a12.014 12.014 0 0 0 9.229-9.006zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728z"/>
+          </svg>
+          Add to Chrome
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
+        <a href="https://github.com/khaledalam/worktools" target="_blank"
+           class="px-8 py-4 rounded-xl border border-white/20 font-semibold text-lg hover:bg-white/5 transition flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+
+      <!-- Platform Badges -->
+      <div class="flex items-center justify-center gap-4 mb-12 flex-wrap">
+        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-gray-400">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0z"/></svg>
+          Chrome
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-gray-400">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          Firefox
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-gray-400">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          macOS
+        </div>
+      </div>
+
+      <!-- Hero Image -->
+      <div class="relative floating">
+        <div class="screenshot-wrapper glow-box rounded-2xl overflow-hidden border border-white/10 max-w-2xl mx-auto">
+          <img src="assets/screenshots/popup.png" alt="WorkTools Interface" class="w-full rounded-2xl">
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+      <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="relative py-32 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-20 fade-in">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">
+          Everything You Need,<br>
+          <span class="gradient-text-alt">Nothing You Don't</span>
+        </h2>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+          Designed for developers who value speed, privacy, and seamless integration.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Feature 1: Quick JIRA -->
+        <div class="card-hover glass-card rounded-2xl p-8 fade-in">
+          <div class="feature-icon jira w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Lightning Fast Access</h3>
+          <p class="text-gray-400">
+            Open any JIRA ticket instantly with <span class="kbd px-2 py-1 rounded text-xs">Cmd+Shift+J</span> or type <code class="text-purple-400">jira PROJ-123</code> in your address bar.
+          </p>
+          <span class="inline-block mt-4 px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-medium">Omnibox + Popup</span>
+        </div>
+
+        <!-- Feature 2: Related PRs -->
+        <div class="card-hover glass-card rounded-2xl p-8 fade-in">
+          <div class="feature-icon github w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">GitHub PR Integration</h3>
+          <p class="text-gray-400">
+            See linked pull requests directly in JIRA tickets. View status, change counts, and download patch files with one click.
+          </p>
+          <span class="inline-block mt-4 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-400 text-xs font-medium">New in v1.0.3</span>
+        </div>
+
+        <!-- Feature 3: RTL Support -->
+        <div class="card-hover glass-card rounded-2xl p-8 fade-in">
+          <div class="feature-icon slack w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">RTL Support</h3>
+          <p class="text-gray-400">
+            Automatic right-to-left text formatting for Hebrew and Arabic content in both JIRA and Slack. Work seamlessly in any language.
+          </p>
+          <span class="inline-block mt-4 px-3 py-1 rounded-full bg-pink-500/20 text-pink-400 text-xs font-medium">Multilingual</span>
+        </div>
+
+        <!-- Feature 4: Recent Tickets -->
+        <div class="card-hover glass-card rounded-2xl p-8 fade-in">
+          <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Recent Tickets</h3>
+          <p class="text-gray-400">
+            Searchable history of your recently accessed tickets with timestamps. Never lose track of what you were working on.
+          </p>
+          <span class="inline-block mt-4 px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-medium">Smart History</span>
+        </div>
+
+        <!-- Feature 5: Privacy -->
+        <div class="card-hover glass-card rounded-2xl p-8 fade-in">
+          <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Privacy First</h3>
+          <p class="text-gray-400">
+            No data collected. No analytics. No tracking. All settings stored locally on your device. Your workflow stays yours.
+          </p>
+          <span class="inline-block mt-4 px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium">Zero Tracking</span>
+        </div>
+
+        <!-- Feature 6: Open Source -->
+        <div class="card-hover glass-card rounded-2xl p-8 fade-in">
+          <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-3">Open Source</h3>
+          <p class="text-gray-400">
+            MIT licensed. Fully transparent codebase. Contributions welcome. Built by developers, for developers.
+          </p>
+          <span class="inline-block mt-4 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-medium">MIT License</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="relative py-32 px-6 border-t border-white/5">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl font-bold mb-4">How It Works</h2>
+        <p class="text-gray-400">Three simple ways to access your tickets</p>
+      </div>
+
+      <div class="space-y-8">
+        <!-- Step 1 -->
+        <div class="flex items-start gap-6 fade-in">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-xl shrink-0">
+            1
+          </div>
+          <div class="glass-card rounded-xl p-6 flex-1">
+            <h3 class="text-lg font-semibold mb-2">Keyboard Shortcut</h3>
+            <p class="text-gray-400 mb-3">Press the shortcut, type your ticket ID, hit enter.</p>
+            <div class="flex items-center gap-2">
+              <span class="kbd px-3 py-2 rounded-lg text-sm font-mono">Cmd</span>
+              <span class="text-gray-500">+</span>
+              <span class="kbd px-3 py-2 rounded-lg text-sm font-mono">Shift</span>
+              <span class="text-gray-500">+</span>
+              <span class="kbd px-3 py-2 rounded-lg text-sm font-mono">J</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="flex items-start gap-6 fade-in">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center font-bold text-xl shrink-0">
+            2
+          </div>
+          <div class="glass-card rounded-xl p-6 flex-1">
+            <h3 class="text-lg font-semibold mb-2">Browser Omnibox</h3>
+            <p class="text-gray-400 mb-3">Type directly in your browser's address bar.</p>
+            <div class="bg-black/30 rounded-lg px-4 py-3 font-mono text-sm">
+              <span class="text-purple-400">jira</span> <span class="text-gray-400">PROJ-1234</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="flex items-start gap-6 fade-in">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center font-bold text-xl shrink-0">
+            3
+          </div>
+          <div class="glass-card rounded-xl p-6 flex-1">
+            <h3 class="text-lg font-semibold mb-2">Extension Popup</h3>
+            <p class="text-gray-400 mb-3">Click the extension icon and search your recent tickets.</p>
+            <div class="flex items-center gap-2 text-sm text-gray-500">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              Search with timestamps and quick filters
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots Section -->
+  <section id="screenshots" class="relative py-32 px-6 border-t border-white/5">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl font-bold mb-4">See It in Action</h2>
+        <p class="text-gray-400">Clean, intuitive interface designed to stay out of your way</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card-hover glass-card rounded-2xl overflow-hidden fade-in">
+          <img src="assets/screenshots/popup.png" alt="Extension Popup" class="w-full">
+          <div class="p-4 text-center">
+            <span class="text-sm font-medium">Extension Popup</span>
+          </div>
+        </div>
+        <div class="card-hover glass-card rounded-2xl overflow-hidden fade-in">
+          <img src="assets/screenshots/github-pr-patch.png" alt="GitHub PR Patch" class="w-full">
+          <div class="p-4 text-center">
+            <span class="text-sm font-medium">GitHub PR Patch Button</span>
+          </div>
+        </div>
+        <div class="card-hover glass-card rounded-2xl overflow-hidden fade-in">
+          <img src="assets/screenshots/slack-rtl.png" alt="Slack RTL Support" class="w-full">
+          <div class="p-4 text-center">
+            <span class="text-sm font-medium">Slack RTL Support</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Install Section -->
+  <section id="install" class="relative py-32 px-6 border-t border-white/5">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">
+          Get <span class="gradient-text">WorkTools</span>
+        </h2>
+        <p class="text-gray-400 text-lg">Choose your platform and start boosting your productivity</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Chrome -->
+        <a href="https://chromewebstore.google.com/detail/worktools/amoikjkckimekcjfkdnkfianhajpdmgc" target="_blank"
+           class="card-hover glass-card rounded-2xl p-8 text-center fade-in group">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl chrome-gradient p-0.5">
+            <div class="w-full h-full rounded-2xl bg-[#1a1a3e] flex items-center justify-center">
+              <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-3.952 6.848a12.014 12.014 0 0 0 9.229-9.006zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728z"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Chrome</h3>
+          <p class="text-gray-400 text-sm mb-4">Full feature set with Slack RTL & Related PRs</p>
+          <span class="inline-flex items-center gap-2 text-purple-400 group-hover:gap-3 transition-all">
+            Install Extension
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Firefox -->
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/worktools/" target="_blank"
+           class="card-hover glass-card rounded-2xl p-8 text-center fade-in group">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl firefox-gradient flex items-center justify-center">
+            <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Firefox</h3>
+          <p class="text-gray-400 text-sm mb-4">Quick JIRA, RTL & GitHub PR Patch</p>
+          <span class="inline-flex items-center gap-2 text-purple-400 group-hover:gap-3 transition-all">
+            Install Add-on
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- macOS -->
+        <div class="card-hover glass-card rounded-2xl p-8 text-center fade-in group">
+          <div class="w-20 h-20 mx-auto mb-6 rounded-2xl mac-gradient flex items-center justify-center">
+            <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">macOS</h3>
+          <p class="text-gray-400 text-sm mb-4">Menu bar app with global shortcut</p>
+          <div class="bg-black/30 rounded-lg px-4 py-2 font-mono text-sm text-left mb-4">
+            <span class="text-gray-500">$</span> <span class="text-green-400">brew</span> install worktools
+          </div>
+          <a href="https://github.com/khaledalam/worktools/releases" target="_blank" class="inline-flex items-center gap-2 text-gray-400 hover:text-purple-400 transition text-sm">
+            Or download from releases
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Coming Soon -->
+      <div class="mt-12 text-center fade-in">
+        <p class="text-gray-500 text-sm inline-flex items-center gap-2">
+          <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+          Windows & Linux coming soon
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="relative py-32 px-6 border-t border-white/5">
+    <div class="max-w-3xl mx-auto text-center fade-in">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">
+        Ready to <span class="gradient-text">Boost</span> Your Workflow?
+      </h2>
+      <p class="text-gray-400 text-lg mb-10">
+        Join developers who are saving hours every week with WorkTools.
+        Open source, privacy-first, and completely free.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="https://github.com/khaledalam/worktools" target="_blank"
+           class="group px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 font-semibold text-lg hover:opacity-90 transition flex items-center gap-2 pulse-glow">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          Star on GitHub
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-12 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center font-bold">
+          W
+        </div>
+        <span class="font-semibold">WorkTools</span>
+        <span class="text-gray-500 text-sm">by <a href="https://khaledalam.net" target="_blank" class="hover:text-white transition">Khaled Alam</a></span>
+      </div>
+      <div class="flex items-center gap-6 text-sm text-gray-400">
+        <a href="https://github.com/khaledalam/worktools" target="_blank" class="hover:text-white transition">GitHub</a>
+        <a href="https://github.com/khaledalam/worktools/issues" target="_blank" class="hover:text-white transition">Report Issue</a>
+        <a href="PRIVACY_POLICY.md" class="hover:text-white transition">Privacy</a>
+        <a href="CHANGELOG.md" class="hover:text-white transition">Changelog</a>
+        <span>MIT License</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Respect reduced motion preference
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+        return;
+      }
+
+      // Intersection Observer for scroll animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
