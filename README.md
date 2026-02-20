@@ -8,7 +8,7 @@
 
 # WorkTools
 
-> **[Visit Website](https://khaledalam.github.io/worktools/)** | Productivity tools for developers who work with JIRA, GitHub, and Slack daily.
+> **[Visit Website](https://khaledalam.github.io/worktools/)** | Productivity tools for developers who work with JIRA, GitHub, Slack, and Trello daily.
 
 <p align="center">
   <img src="assets/screenshots/popup.png" alt="WorkTools Popup" width="400">
@@ -35,9 +35,15 @@
 | JIRA Related PRs | ✅ | ❌ | ❌ | ❌ | ❌ |
 | GitHub PR Patch | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Slack RTL Support | ✅ | ❌ | ❌ | ❌ | ❌ |
+| Trello RTL Support | ✅ | ❌ | ❌ | ❌ | ❌ |
 | Recent Tickets | ✅ | ✅ | ✅ | 🚧 | 🚧 |
 | Keyboard Shortcut | ❌ | ❌ | ✅ | 🚧 | 🚧 |
 | Menu Bar App | ❌ | ❌ | ✅ | 🚧 | 🚧 |
+| System Monitor | ❌ | ❌ | ✅ | ❌ | ❌ |
+| Clipboard Manager | ❌ | ❌ | ✅ | ❌ | ❌ |
+| Network Monitor | ❌ | ❌ | ✅ | ❌ | ❌ |
+| Quick Notes | ❌ | ❌ | ✅ | ❌ | ❌ |
+| Color Picker | ❌ | ❌ | ✅ | ❌ | ❌ |
 
 ---
 
@@ -91,6 +97,59 @@ Right-to-left text direction for Hebrew/Arabic content in Slack.
 - Preserves LTR for code blocks
 - Toggle on/off from extension popup
 
+### Trello RTL Support
+
+Right-to-left text direction for Hebrew/Arabic content in Trello.
+
+- Automatic RTL for boards, cards, comments, and checklists
+- Preserves LTR for code blocks
+- Toggle on/off from extension popup
+
+### System Monitor (Mac)
+
+Real-time system resource monitoring from the menu bar.
+
+- Live memory and CPU usage with per-process breakdown
+- Kill processes directly from the monitor
+- Configurable display settings (opacity, font size, theme)
+- Always-on-top mode with resizable window
+
+### Clipboard Manager (Mac)
+
+Persistent clipboard history with search and organization.
+
+- Automatic clipboard history tracking (up to 50 entries)
+- Pin important items to keep them at the top
+- One-click copy from history
+- Clear history while preserving pinned items
+
+### Network Monitor (Mac)
+
+Real-time network activity and connection details.
+
+- Live bandwidth monitoring (upload/download rates per interface)
+- Wi-Fi signal quality, SSID, channel, and TX rate
+- IP address display for all active interfaces
+- Always-on-top mode with resizable window
+
+### Quick Notes (Mac)
+
+Lightweight multi-tab note-taking accessible from the menu bar.
+
+- Multiple notes with tab management
+- Persistent storage across sessions
+- Always-on-top mode for reference notes
+- Resizable window with saved position
+
+### Color Picker (Mac)
+
+Color selection and management tool for developers.
+
+- HSL, RGB, and HEX color format support
+- Recent colors history (up to 20 entries)
+- Save custom color palettes
+- One-click copy color values to clipboard
+
 ---
 
 ## Installation
@@ -105,6 +164,7 @@ Install from [Chrome Web Store](https://chromewebstore.google.com/detail/worktoo
 - JIRA Related PRs Viewer
 - GitHub PR Patch Download
 - Slack RTL Support
+- Trello RTL Support
 - Recent tickets history
 - Toggle features on/off from popup
 
@@ -132,6 +192,11 @@ Or download from [Releases](https://github.com/khaledalam/worktools/releases).
 - Recent tickets history with timestamps
 - Keyboard shortcut: `Cmd + Shift + J`
 - Settings for JIRA base URL configuration
+- System Monitor (memory & CPU usage, process management)
+- Clipboard Manager (history, pinning, search)
+- Network Monitor (bandwidth, Wi-Fi info, interfaces)
+- Quick Notes (multi-tab note-taking)
+- Color Picker (HSL/RGB/HEX with saved palettes)
 
 ---
 
